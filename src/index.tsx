@@ -1,15 +1,33 @@
-import React, { FC, HTMLAttributes, ReactChild } from 'react';
+import * as React from 'react';
+import styled from '@emotion/styled';
+import { DialogOverlay, DialogContent } from '@reach/dialog';
+import '@reach/dialog/styles.css';
 
-export interface Props extends HTMLAttributes<HTMLDivElement> {
-  /** custom content, defaults to 'the snozzberries taste like snozzberries' */
-  children?: ReactChild;
+const StyledDialogOverlay = styled(DialogOverlay)`
+  background: rgba(255, 255, 255, 0.9);
+`;
+
+const StyledDialogContent = styled(DialogContent)`
+  background: #fff;
+  box-shadow: 0px 10px 50px hsla(0, 0%, 0%, 0.33);
+`;
+
+export interface Props {
+  children?: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-// Please do not use types off of a default export module or else Storybook Docs will suffer.
-// see: https://github.com/storybookjs/storybook/issues/9556
-/**
- * A custom Thing component. Neat!
- */
-export const Thing: FC<Props> = ({ children }) => {
-  return <div>{children || `the snozzberries taste like snozzberries`}</div>;
+export const Modal = ({ isOpen, onClose }: Props) => {
+  return (
+    <StyledDialogOverlay isOpen={isOpen} onDismiss={onClose}>
+      <StyledDialogContent>
+        <p>Hello world!</p>
+        <p>
+          <a href="https://example.com">This is a link</a>
+        </p>
+        <button onClick={onClose}>Close</button>
+      </StyledDialogContent>
+    </StyledDialogOverlay>
+  );
 };
